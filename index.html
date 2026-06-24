@@ -29,7 +29,6 @@
     --white:       #FFFFFF;
     --g1:          #0E0E0E;
     --g2:          #181818;
-    --g3:          #242424;
     --gt:          #888888;
     --border:      #2A2A2A;
   }
@@ -43,14 +42,24 @@
     font-weight: 300;
     line-height: 1.65;
     -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  /* ── BARRA DE PROGRESO ── */
+  #progress-bar {
+    position: fixed;
+    top: 0; left: 0;
+    width: 0%;
+    height: 2px;
+    background: var(--gold);
+    z-index: 999;
+    transition: width 0.1s linear;
   }
 
   /* ── TYPE ── */
   .serif { font-family: 'Playfair Display', serif; }
-  .xl  { font-size: clamp(2.2rem, 5vw, 3.8rem); line-height: 1.08; font-weight: 900; letter-spacing: -0.02em; }
-  .lg  { font-size: clamp(1.7rem, 3vw, 2.5rem); line-height: 1.15; font-weight: 700; letter-spacing: -0.01em; }
-  .md  { font-size: clamp(1.1rem, 2vw, 1.35rem); line-height: 1.4; font-weight: 600; }
-
+  .xl { font-size: clamp(2.2rem, 5vw, 3.8rem); line-height: 1.08; font-weight: 900; letter-spacing: -0.02em; }
+  .lg { font-size: clamp(1.7rem, 3vw, 2.5rem); line-height: 1.15; font-weight: 700; letter-spacing: -0.01em; }
   em { font-style: italic; color: var(--gold); }
 
   .eyebrow {
@@ -66,11 +75,30 @@
   .muted { color: rgba(255,255,255,0.62); font-size: 1.05rem; line-height: 1.75; }
 
   /* ── LAYOUT ── */
-  .wrap     { max-width: 680px;  margin: 0 auto; padding: 0 28px; }
-  .wrap-lg  { max-width: 980px;  margin: 0 auto; padding: 0 28px; }
+  .wrap    { max-width: 680px; margin: 0 auto; padding: 0 28px; }
+  .wrap-lg { max-width: 980px; margin: 0 auto; padding: 0 28px; }
 
-  .gold-rule { width: 44px; height: 2px; background: var(--gold); margin: 18px 0 26px; }
+  .gold-rule        { width: 44px; height: 2px; background: var(--gold); margin: 18px 0 26px; }
   .gold-rule.center { margin: 18px auto 26px; }
+
+  /* ── ANIMACIONES DE SCROLL ── */
+  .fade-up {
+    opacity: 0;
+    transform: translateY(36px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .fade-up.visible { opacity: 1; transform: translateY(0); }
+
+  .fade-in {
+    opacity: 0;
+    transition: opacity 0.8s ease;
+  }
+  .fade-in.visible { opacity: 1; }
+
+  .d1 { transition-delay: 0.05s; }
+  .d2 { transition-delay: 0.15s; }
+  .d3 { transition-delay: 0.25s; }
+  .d4 { transition-delay: 0.35s; }
 
   /* ── HERO ── */
   .hero {
@@ -89,87 +117,87 @@
     width: 55vw; height: 55vw;
     max-width: 700px; max-height: 700px;
     border-radius: 50%;
-    background: radial-gradient(circle, rgba(255,215,0,0.055) 0%, transparent 68%);
+    background: radial-gradient(circle, rgba(255,215,0,0.06) 0%, transparent 68%);
     pointer-events: none;
+    animation: pulse 6s ease-in-out infinite;
   }
 
-  .hero h1 { margin-bottom: 10px; }
+  @keyframes pulse {
+    0%, 100% { opacity: 0.6; transform: scale(1); }
+    50%       { opacity: 1;   transform: scale(1.08); }
+  }
 
+  .hero h1   { margin-bottom: 10px; }
   .hero .muted { margin: 24px 0 42px; max-width: 560px; }
 
   /* ── FORM ── */
   .form-stack { display: flex; flex-direction: column; gap: 14px; max-width: 500px; }
+  .form-note  { font-size: 0.73rem; color: var(--gt); }
 
-  .email-row {
-    display: flex;
+  /* ── CONTADOR DE DOMINGO ── */
+  .sunday-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--gold-dim);
     border: 1px solid var(--gold-border);
-    border-radius: 4px;
-    overflow: hidden;
+    border-radius: 100px;
+    padding: 6px 14px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: var(--gold);
+    letter-spacing: 0.06em;
+    margin-bottom: 24px;
+  }
+
+  .sunday-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--gold);
+    animation: blink 1.4s ease-in-out infinite;
+  }
+
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50%       { opacity: 0.2; }
+  }
+
+  /* ── STATS STRIP ── */
+  .stats-strip {
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    padding: 32px 0;
     background: var(--g1);
   }
 
-  .email-row input[type="email"] {
-    flex: 1;
-    min-width: 0;
-    background: transparent;
-    border: none;
-    outline: none;
-    color: var(--white);
-    font-family: 'Inter', sans-serif;
-    font-size: 0.95rem;
-    font-weight: 300;
-    padding: 16px 20px;
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 0;
   }
 
-  .email-row input[type="email"]::placeholder { color: var(--gt); }
-
-  .btn {
-    background: var(--gold);
-    color: #000;
-    border: none;
-    font-family: 'Inter', sans-serif;
-    font-size: 0.78rem;
-    font-weight: 700;
-    letter-spacing: 0.07em;
-    text-transform: uppercase;
-    padding: 0 22px;
-    cursor: pointer;
-    white-space: nowrap;
-    transition: opacity 0.15s;
-    flex-shrink: 0;
+  .stat {
+    text-align: center;
+    padding: 16px 24px;
+    border-right: 1px solid var(--border);
   }
 
-  .btn:hover { opacity: 0.86; }
+  .stat:last-child { border-right: none; }
 
-  .check-row {
-    display: flex;
-    align-items: flex-start;
-    gap: 10px;
+  .stat-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    font-weight: 900;
+    color: var(--gold);
+    line-height: 1;
+    margin-bottom: 6px;
   }
 
-  .check-row input[type="checkbox"] {
-    margin-top: 3px;
-    accent-color: var(--gold);
-    flex-shrink: 0;
-    width: 15px;
-    height: 15px;
-  }
+  .stat-lbl { font-size: 0.72rem; color: var(--gt); letter-spacing: 0.06em; text-transform: uppercase; }
 
-  .check-row label {
-    font-size: 0.76rem;
-    color: var(--gt);
-    line-height: 1.55;
-  }
-
-  .check-row label a { color: var(--gold); text-decoration: none; }
-  .check-row label a:hover { text-decoration: underline; }
-
-  .form-note { font-size: 0.73rem; color: var(--gt); }
-
-  /* ── RISK SECTION ── */
+  /* ── RISK ── */
   .risk {
     background: var(--g1);
-    border-top: 1px solid var(--border);
     border-bottom: 1px solid var(--border);
     padding: 88px 0;
   }
@@ -179,7 +207,6 @@
   .risk-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    gap: 0;
     border: 1px solid var(--border);
   }
 
@@ -187,11 +214,12 @@
     padding: 40px 32px;
     border-right: 1px solid var(--border);
     background: var(--g1);
-    transition: background 0.2s;
+    transition: background 0.25s, transform 0.25s;
+    cursor: default;
   }
 
   .risk-card:last-child { border-right: none; }
-  .risk-card:hover { background: var(--g2); }
+  .risk-card:hover { background: var(--g2); transform: translateY(-4px); }
 
   .risk-n {
     font-family: 'Playfair Display', serif;
@@ -200,16 +228,17 @@
     color: rgba(255,215,0,0.13);
     line-height: 1;
     margin-bottom: 18px;
+    transition: color 0.25s;
   }
+
+  .risk-card:hover .risk-n { color: rgba(255,215,0,0.28); }
 
   .risk-card h3 { font-size: 0.97rem; font-weight: 600; margin-bottom: 12px; line-height: 1.45; }
   .risk-card p  { font-size: 0.86rem; color: var(--gt); line-height: 1.7; }
 
-  /* ── PREVIEW (SIGNATURE ELEMENT) ── */
+  /* ── PREVIEW ── */
   .preview { padding: 96px 0; }
-
   .preview-head { text-align: center; margin-bottom: 52px; }
-  .preview-head .muted { margin-top: 16px; max-width: 500px; margin-left: auto; margin-right: auto; }
 
   .card {
     max-width: 600px;
@@ -218,7 +247,11 @@
     border-radius: 6px;
     overflow: hidden;
     background: var(--g2);
+    box-shadow: 0 0 60px rgba(255,215,0,0.06);
+    transition: box-shadow 0.3s;
   }
+
+  .card:hover { box-shadow: 0 0 80px rgba(255,215,0,0.12); }
 
   .card-head {
     background: var(--gold);
@@ -230,12 +263,7 @@
     gap: 12px;
   }
 
-  .card-head .tipo {
-    font-size: 0.72rem;
-    font-weight: 700;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-  }
+  .card-head .tipo { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; }
 
   .badge {
     background: #000;
@@ -258,27 +286,16 @@
     padding: 13px 24px;
     border-bottom: 1px solid var(--border);
     gap: 16px;
+    transition: background 0.15s;
   }
 
   .data-row:last-child { border-bottom: none; }
+  .data-row:hover { background: rgba(255,215,0,0.03); }
 
-  .field-lbl {
-    font-size: 0.73rem;
-    color: var(--gt);
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    flex-shrink: 0;
-  }
-
+  .field-lbl { font-size: 0.73rem; color: var(--gt); text-transform: uppercase; letter-spacing: 0.08em; flex-shrink: 0; }
   .field-val { font-size: 0.92rem; font-weight: 500; text-align: right; }
-  .field-val.gold  { color: var(--gold); font-size: 1.05rem; font-weight: 600; }
-
-  .field-val.blur {
-    filter: blur(7px);
-    user-select: none;
-    color: var(--gt);
-    font-size: 0.88rem;
-  }
+  .field-val.gold { color: var(--gold); font-size: 1.05rem; font-weight: 600; }
+  .field-val.blur { filter: blur(7px); user-select: none; color: var(--gt); font-size: 0.88rem; }
 
   .card-foot {
     background: var(--g1);
@@ -291,11 +308,9 @@
     border-top: 1px solid var(--border);
   }
 
-  .card-foot p { font-size: 0.76rem; color: var(--gt); }
-
-  .link-gold { font-size: 0.76rem; color: var(--gold); font-weight: 600; cursor: default; white-space: nowrap; }
-
-  .preview-note { text-align: center; margin-top: 18px; font-size: 0.74rem; color: var(--gt); }
+  .card-foot p    { font-size: 0.76rem; color: var(--gt); }
+  .link-gold      { font-size: 0.76rem; color: var(--gold); font-weight: 600; cursor: default; white-space: nowrap; }
+  .preview-note   { text-align: center; margin-top: 18px; font-size: 0.74rem; color: var(--gt); }
 
   /* ── FORM BAND ── */
   .form-band {
@@ -305,27 +320,14 @@
     padding: 80px 0;
   }
 
-  .form-band-inner {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    gap: 36px;
-  }
-
+  .form-band-inner { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 36px; }
   .form-band .form-stack { align-items: center; width: 100%; max-width: 520px; }
-  .form-band .email-row  { width: 100%; }
-  .form-band .check-row  { text-align: left; }
 
   /* ── PROCESS ── */
   .process { padding: 96px 0; }
   .process-head { text-align: center; margin-bottom: 64px; }
 
-  .steps {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 48px;
-  }
+  .steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 48px; }
 
   .step { display: flex; flex-direction: column; gap: 16px; }
 
@@ -335,224 +337,149 @@
     border-radius: 50%;
     display: flex; align-items: center; justify-content: center;
     font-size: 0.75rem; font-weight: 600; color: var(--gold);
-    flex-shrink: 0;
+    transition: background 0.2s, border-color 0.2s;
   }
+
+  .step:hover .step-num { background: var(--gold-dim); border-color: var(--gold); }
 
   .step h3 { font-size: 1rem; font-weight: 600; line-height: 1.4; }
   .step p  { font-size: 0.86rem; color: var(--gt); line-height: 1.72; }
 
   /* ── CLOSING ── */
-  .closing {
-    padding: 108px 0;
-    text-align: center;
-    background: var(--g1);
-    border-top: 1px solid var(--border);
-  }
-
-  .closing h2 { margin-bottom: 10px; }
-  .closing .muted { margin: 22px auto 44px; max-width: 480px; }
+  .closing { padding: 108px 0; text-align: center; background: var(--g1); border-top: 1px solid var(--border); }
+  .closing .muted  { margin: 22px auto 44px; max-width: 480px; }
   .closing .form-stack { margin: 0 auto; align-items: center; max-width: 500px; }
-  .closing .email-row  { width: 100%; }
-  .closing .check-row  { text-align: left; }
-
-  /* ── FOOTER ── */
-  footer {
-    border-top: 1px solid var(--border);
-    padding: 36px 28px;
-    text-align: center;
-  }
-
-  footer p { font-size: 0.74rem; color: var(--gt); line-height: 1.7; }
-  footer a { color: var(--gold); text-decoration: none; }
 
   /* ── MAILERLITE OVERRIDE ── */
   .ml-embedded { width: 100%; max-width: 500px; }
-
-  .ml-embedded *,
-  .ml-form-embedWrapper,
-  .ml-form-embedWrapper * { box-sizing: border-box; }
-
-  .ml-embedded .ml-form-embedWrapper {
-    background: transparent !important;
-    border: none !important;
-    box-shadow: none !important;
-    padding: 0 !important;
-    width: 100% !important;
-  }
-
+  .ml-embedded .ml-form-embedWrapper,
   .ml-embedded .ml-form-embedBody,
-  .ml-embedded .ml-form-align-left {
+  .ml-embedded .ml-form-embedBodyContent {
     background: transparent !important;
+    background-color: transparent !important;
+    box-shadow: none !important;
+    border: none !important;
     padding: 0 !important;
     width: 100% !important;
   }
-
-  /* Ocultar título y descripción del formulario de MailerLite */
   .ml-embedded .ml-form-embedContent,
-  .ml-embedded h4,
-  .ml-embedded p.ml-form-description { display: none !important; }
+  .ml-embedded h4.ml-form-embedTitle { display: none !important; }
 
-  /* Input de email */
-  .ml-embedded input[type="email"],
-  .ml-embedded .ml-field-group input {
-    background: #0E0E0E !important;
-    background-color: #0E0E0E !important;
-    border: 1px solid rgba(255,215,0,0.28) !important;
-    border-radius: 4px !important;
-    color: #FFFFFF !important;
-    font-family: 'Inter', sans-serif !important;
-    font-size: 0.95rem !important;
-    font-weight: 300 !important;
-    padding: 15px 18px !important;
-    width: 100% !important;
-    height: auto !important;
-    margin-bottom: 10px !important;
-  }
-
-  .ml-embedded input[type="email"]::placeholder,
-  .ml-embedded .ml-field-group input::placeholder {
-    color: #888888 !important;
-    opacity: 1 !important;
-  }
-
-  /* Checkbox y su texto */
-  .ml-embedded .ml-form-checkboxRow,
-  .ml-embedded .ml-form-checkboxRow p,
-  .ml-embedded .ml-form-checkboxRow span,
-  .ml-embedded .ml-form-checkboxRow label {
-    color: #888888 !important;
-    font-size: 0.76rem !important;
-    font-family: 'Inter', sans-serif !important;
-    line-height: 1.55 !important;
-  }
-
-  .ml-embedded .ml-form-checkboxRow a { color: #FFD700 !important; }
-
-  .ml-embedded .ml-form-checkboxRow input[type="checkbox"] {
-    accent-color: #FFD700 !important;
-    flex-shrink: 0 !important;
-    margin-top: 2px !important;
-  }
-
-  /* Botón */
-  .ml-embedded button[type="submit"],
-  .ml-embedded .ml-form-embedSubmit button,
-  .ml-embedded input[type="submit"] {
-    background: #FFD700 !important;
-    background-color: #FFD700 !important;
-    color: #000000 !important;
-    border: none !important;
-    border-radius: 4px !important;
-    font-family: 'Inter', sans-serif !important;
-    font-size: 0.78rem !important;
-    font-weight: 700 !important;
-    letter-spacing: 0.07em !important;
-    text-transform: uppercase !important;
-    padding: 15px 22px !important;
-    width: 100% !important;
-    cursor: pointer !important;
-    margin-top: 10px !important;
-    transition: opacity 0.15s !important;
-    height: auto !important;
-  }
-
-  .ml-embedded button[type="submit"]:hover { opacity: 0.86 !important; }
-
-  /* Mensaje de éxito */
-  .ml-embedded .ml-form-successBody,
-  .ml-embedded .ml-form-successContent {
-    color: #FFD700 !important;
-    font-size: 0.95rem !important;
-    text-align: center !important;
-    padding: 20px 0 !important;
-    background: transparent !important;
-  }
+  /* ── FOOTER ── */
+  footer { border-top: 1px solid var(--border); padding: 36px 0; text-align: center; }
+  footer p { font-size: 0.74rem; color: var(--gt); line-height: 1.7; }
+  footer a { color: var(--gold); text-decoration: none; }
 
   /* ── RESPONSIVE ── */
   @media (max-width: 560px) {
-    .email-row { flex-direction: column; }
-    .btn { padding: 14px; text-align: center; }
     .risk-card { border-right: none; border-bottom: 1px solid var(--border); }
     .risk-card:last-child { border-bottom: none; }
+    .risk-card:hover { transform: none; }
     .card-head { flex-direction: column; align-items: flex-start; gap: 8px; }
+    .stat { border-right: none; border-bottom: 1px solid var(--border); }
+    .stat:last-child { border-bottom: none; }
   }
 </style>
 </head>
 <body>
 
-<!-- ═══════════════════════════════════════════
-     SECCIÓN 1 — HERO (Problema)
-     ═══════════════════════════════════════════ -->
+<div id="progress-bar"></div>
+
+<!-- ═══ HERO ═══ -->
 <section class="hero">
   <div class="wrap">
-    <span class="eyebrow">Lista Dominical · Remates Judiciales Colombia</span>
-    <h1 class="serif xl">
+    <div class="sunday-badge fade-in">
+      <span class="sunday-dot"></span>
+      Próxima lista · Este domingo
+    </div>
+    <h1 class="serif xl fade-up">
       Los remates que ya<br>
       <em>sobrevivieron nuestro filtro.</em><br>
       Directo a tu correo.
     </h1>
-    <div class="gold-rule"></div>
-    <p class="muted">
-      El 90% de los remates publicados tiene problemas ocultos que el inversionista descubre cuando ya pagó. Nosotros los descartamos antes de que tú los veas.
+    <div class="gold-rule fade-in d1"></div>
+    <p class="muted fade-up d2">
+      Los procesos judiciales de remate son públicos. Lo que decide si una inversión funciona o fracasa está en los detalles que esa publicación no incluye — y que solo se ven leyendo el expediente completo.
     </p>
-
-    <!-- FORMULARIO 1 — MailerLite -->
-    <div class="ml-embedded" data-form="L68tUG"></div>
-    <p class="form-note" style="margin-top:8px;">Sin spam. Solo remates reales, cada domingo.</p>
+    <div class="fade-up d3">
+      <div class="ml-embedded" data-form="L68tUG"></div>
+      <p class="form-note" style="margin-top:8px;">Sin spam. Solo remates reales, cada domingo.</p>
+    </div>
   </div>
 </section>
 
 
-<!-- ═══════════════════════════════════════════
-     SECCIÓN 2 — AGITACIÓN (Los 3 riesgos)
-     ═══════════════════════════════════════════ -->
+<!-- ═══ STATS STRIP ═══ -->
+<div class="stats-strip">
+  <div class="wrap-lg">
+    <div class="stats-grid">
+      <div class="stat fade-up">
+        <div class="stat-num" data-target="90">0</div>
+        <div class="stat-lbl">% de remates con información incompleta</div>
+      </div>
+      <div class="stat fade-up d1">
+        <div class="stat-num" data-target="3" data-suffix=" hitos">0</div>
+        <div class="stat-lbl">de cobro atados al avance real</div>
+      </div>
+      <div class="stat fade-up d2">
+        <div class="stat-num" data-target="5" data-suffix="%">0</div>
+        <div class="stat-lbl">comisión sobre valor de adjudicación</div>
+      </div>
+      <div class="stat fade-up d3">
+        <div class="stat-num" data-target="70" data-suffix="%">0</div>
+        <div class="stat-lbl">del avalúo es tu postura de entrada</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ═══ RIESGOS ═══ -->
 <section class="risk">
   <div class="wrap-lg">
-    <div class="risk-head">
-      <span class="eyebrow">Por qué el 90% pierde</span>
+    <div class="risk-head fade-up">
+      <span class="eyebrow">Lo que la publicación no dice</span>
       <div class="gold-rule center"></div>
-      <h2 class="serif lg">Los tres riesgos que nadie te cuenta</h2>
-      <p class="muted" style="max-width:500px; margin:18px auto 0;">
-        La Rama Judicial publica el remate. No te avisa si ese proceso tiene vicios que lo pueden hundir después de que pagaste.
+      <h2 class="serif lg">Tres capas de complejidad que definen el resultado</h2>
+      <p class="muted" style="max-width:520px; margin:18px auto 0;">
+        La información disponible públicamente de un proceso judicial es el punto de partida, no el diagnóstico completo. Estas son las capas que requieren análisis especializado.
       </p>
     </div>
 
     <div class="risk-grid">
-      <div class="risk-card">
+      <div class="risk-card fade-up d1">
         <div class="risk-n">01</div>
-        <h3>Embargos de terceros que no aparecen en la publicación</h3>
-        <p>Un inmueble puede tener embargos adicionales registrados por acreedores distintos al demandante. Esa deuda la hereda quien compra en el remate. El juzgado no te avisa.</p>
+        <h3>Gravámenes adicionales que no aparecen en la publicación del remate</h3>
+        <p>Un inmueble puede acumular múltiples obligaciones con distintos acreedores a lo largo de su historia. Esta información existe en registros dispersos que requieren búsqueda especializada para consolidarse antes de una decisión de inversión.</p>
       </div>
-      <div class="risk-card">
+      <div class="risk-card fade-up d2">
         <div class="risk-n">02</div>
-        <h3>Vicios de notificación que anulan la subasta después de pagar</h3>
-        <p>Si el deudor no fue notificado correctamente en alguna etapa, puede impugnar la adjudicación. El juzgado anula el remate. Tú recuperas el dinero meses después, sin intereses.</p>
+        <h3>Historial procesal que puede derivar en recursos posteriores a la adjudicación</h3>
+        <p>Los procesos judiciales tienen etapas con requisitos específicos. Un expediente con inconsistencias en su historial puede ser objeto de recursos legales después de la adjudicación. Identificarlos requiere leer el expediente completo, no solo la publicación.</p>
       </div>
-      <div class="risk-card">
+      <div class="risk-card fade-up d3">
         <div class="risk-n">03</div>
-        <h3>Deudas fiscales y de administración que heredas con el inmueble</h3>
-        <p>Predial atrasado, cuotas de administración sin pagar, servicios en mora. Obligaciones que no aparecen en la publicación pero son tuyas desde el momento de la adjudicación.</p>
+        <h3>Obligaciones fiscales y de administración que van con el inmueble</h3>
+        <p>Predial acumulado, cuotas de administración pendientes, servicios sin cancelar. Estas obligaciones constan en registros distintos al proceso judicial y son responsabilidad del nuevo propietario desde el momento de la adjudicación.</p>
       </div>
     </div>
   </div>
 </section>
 
 
-<!-- ═══════════════════════════════════════════
-     SECCIÓN 3 — ELEMENTO FIRMA: Muestra de remate
-     ═══════════════════════════════════════════ -->
+<!-- ═══ PREVIEW (ELEMENTO FIRMA) ═══ -->
 <section class="preview">
   <div class="wrap">
-    <div class="preview-head">
+    <div class="preview-head fade-up">
       <span class="eyebrow">Muestra dominical</span>
       <div class="gold-rule center"></div>
       <h2 class="serif lg">Esto llega a tu correo cada domingo</h2>
-      <p class="muted">
-        Cada entrada incluye lo que necesitas para evaluar si vale la pena avanzar. Los datos sensibles se revelan solo a quien firma el acuerdo de confidencialidad.
+      <p class="muted" style="margin-top:16px; max-width:500px; margin-left:auto; margin-right:auto;">
+        Cada entrada incluye lo que necesitas para evaluar si vale la pena avanzar. Los datos del expediente se comparten solo con quien firma el acuerdo de confidencialidad.
       </p>
     </div>
 
-    <div class="card">
+    <div class="card fade-up d1">
       <div class="card-head">
         <span class="tipo">🏠 Apartamento · Bogotá — Zona Norte</span>
         <span class="badge">⬤ Oportunidad alta</span>
@@ -560,11 +487,11 @@
       <div class="card-body">
         <div class="data-row">
           <span class="field-lbl">Avalúo comercial</span>
-          <span class="field-val">$285.000.000 COP</span>
+          <span class="field-val counter" data-target="285000000">$0</span>
         </div>
         <div class="data-row">
           <span class="field-lbl">Tu postura de entrada (70%)</span>
-          <span class="field-val gold">$199.500.000 COP</span>
+          <span class="field-val gold counter" data-target="199500000">$0</span>
         </div>
         <div class="data-row">
           <span class="field-lbl">Fecha del remate</span>
@@ -592,21 +519,16 @@
         <span class="link-gold">Solicitar información completa →</span>
       </div>
     </div>
-
-    <p class="preview-note">
-      * Ejemplo ilustrativo. Cada domingo recibes entre 3 y 8 oportunidades reales con este mismo formato.
-    </p>
+    <p class="preview-note fade-in d2">* Ejemplo ilustrativo. Cada domingo recibes entre 3 y 8 oportunidades reales con este formato.</p>
   </div>
 </section>
 
 
-<!-- ═══════════════════════════════════════════
-     FORMULARIO 2 — Banda de conversión
-     ═══════════════════════════════════════════ -->
+<!-- ═══ FORMULARIO 2 ═══ -->
 <section class="form-band">
   <div class="wrap">
     <div class="form-band-inner">
-      <div>
+      <div class="fade-up">
         <span class="eyebrow">El próximo domingo</span>
         <div class="gold-rule center"></div>
         <h2 class="serif lg">¿Estás adentro?</h2>
@@ -614,121 +536,163 @@
           La lista sale cada domingo. Los remates tienen fecha. No hay segunda oportunidad en la misma subasta.
         </p>
       </div>
-
-      <!-- FORMULARIO 2 — MailerLite -->
-      <div class="ml-embedded" data-form="L68tUG"></div>
+      <div class="fade-up d2" style="width:100%; max-width:520px;">
+        <div class="ml-embedded" data-form="L68tUG"></div>
+      </div>
     </div>
   </div>
 </section>
 
 
-<!-- ═══════════════════════════════════════════
-     SECCIÓN 4 — SOLUCIÓN (Cómo funciona)
-     ═══════════════════════════════════════════ -->
+<!-- ═══ CÓMO FUNCIONA ═══ -->
 <section class="process">
   <div class="wrap-lg">
-    <div class="process-head">
+    <div class="process-head fade-up">
       <span class="eyebrow">Nuestro proceso</span>
       <div class="gold-rule center"></div>
-      <h2 class="serif lg">Nosotros hacemos el trabajo sucio</h2>
+      <h2 class="serif lg">Nosotros hacemos el trabajo especializado</h2>
     </div>
-
     <div class="steps">
-      <div class="step">
+      <div class="step fade-up d1">
         <div class="step-num">1</div>
         <h3>Curaduría semanal</h3>
-        <p>Revisamos los remates publicados en la Rama Judicial y descartamos los que tienen señales de alerta antes de que lleguen a tu lista del domingo.</p>
+        <p>Revisamos los remates disponibles y aplicamos nuestros criterios de selección. Solo los que superan el filtro inicial llegan a tu lista del domingo.</p>
       </div>
-      <div class="step">
+      <div class="step fade-up d2">
         <div class="step-num">2</div>
         <h3>Diagnóstico jurídico</h3>
-        <p>Para quien quiere avanzar, nuestro equipo legal lee el expediente completo y te dice si el proceso es viable antes de que pongas un peso en el juzgado.</p>
+        <p>Cuando quieres avanzar con un remate, nuestro equipo legal lee el expediente completo y te entrega un diagnóstico de viabilidad antes de que pongas capital en juego.</p>
       </div>
-      <div class="step">
+      <div class="step fade-up d3">
         <div class="step-num">3</div>
         <h3>Acompañamiento completo</h3>
-        <p>Si decides pujar, te acompañamos desde la postura inicial hasta la entrega material del inmueble. Tú inviertes. Nosotros coordinamos el caos del juzgado.</p>
+        <p>Si decides pujar, coordinamos el proceso de inicio a fin — desde la postura hasta la entrega material del inmueble. Tú inviertes. Nosotros gestionamos.</p>
       </div>
     </div>
   </div>
 </section>
 
 
-<!-- ═══════════════════════════════════════════
-     SECCIÓN 5 — CIERRE + FORMULARIO 3
-     ═══════════════════════════════════════════ -->
+<!-- ═══ CIERRE + FORMULARIO 3 ═══ -->
 <section class="closing">
   <div class="wrap">
-    <span class="eyebrow">Gratis. Cada domingo.</span>
-    <div class="gold-rule center"></div>
-    <h2 class="serif xl">
+    <span class="eyebrow fade-in">Gratis. Cada domingo.</span>
+    <div class="gold-rule center fade-in d1"></div>
+    <h2 class="serif xl fade-up d1">
       Los remates no esperan.<br>
       <em>Tú tampoco deberías.</em>
     </h2>
-    <p class="muted">
-      Suscríbete gratis y recibe cada domingo los remates que ya sobrevivieron nuestro filtro jurídico y financiero.
+    <p class="muted fade-up d2">
+      Suscríbete gratis y recibe cada domingo los remates que ya pasaron nuestro proceso de selección.
     </p>
-
-    <!-- FORMULARIO 3 — MailerLite -->
-    <div class="ml-embedded" data-form="L68tUG"></div>
-    <p class="form-note" style="margin-top:8px;">Sin spam. Sin datos del juzgado para curiosos. Solo oportunidades reales.</p>
+    <div class="fade-up d3" style="display:flex; flex-direction:column; align-items:center; gap:8px;">
+      <div class="ml-embedded" data-form="L68tUG"></div>
+      <p class="form-note">Sin spam. Sin datos del expediente para curiosos. Solo oportunidades reales.</p>
+    </div>
   </div>
 </section>
 
 
-<!-- ═══════════════════════════════════════════
-     FOOTER + POLÍTICA DE PRIVACIDAD
-     ═══════════════════════════════════════════ -->
-<footer id="privacidad">
-  <p>© 2025 Rematistas &nbsp;·&nbsp; <a href="https://rematistas.com/politica-de-privacidad.html">Política de Privacidad</a> &nbsp;·&nbsp; Todos los derechos reservados</p>
-  <p style="margin-top:8px;">El contenido de esta página es informativo y no constituye asesoría jurídica ni financiera.</p>
+<!-- ═══ FOOTER ═══ -->
+<footer>
+  <div class="wrap">
+    <p>© 2025 Rematistas &nbsp;·&nbsp; <a href="https://rematistas.com/politica-de-privacidad.html">Política de Privacidad</a> &nbsp;·&nbsp; Todos los derechos reservados</p>
+    <p style="margin-top:8px;">El contenido de esta página es informativo y no constituye asesoría jurídica ni financiera.</p>
+  </div>
 </footer>
 
-<script>
-function fixML() {
-  // Input de email — fondo oscuro
-  document.querySelectorAll(
-    '.ml-embedded input[type="email"], .ml-embedded input[type="text"]'
-  ).forEach(function(el) {
-    el.style.cssText += 'background:#0E0E0E!important;background-color:#0E0E0E!important;color:#FFFFFF!important;border:1px solid rgba(255,215,0,0.28)!important;border-radius:4px!important;padding:15px 18px!important;font-family:Inter,sans-serif!important;font-size:0.95rem!important;';
-    el.setAttribute('placeholder', el.getAttribute('placeholder') || 'tucorreo@email.com');
-  });
 
-  // Texto del checkbox y etiquetas — hacerlos visibles
-  document.querySelectorAll(
-    '.ml-embedded .ml-form-checkboxRow, .ml-embedded .ml-form-checkboxRow p, .ml-embedded .ml-form-checkboxRow span, .ml-embedded .ml-form-checkboxRow label, .ml-embedded label, .ml-embedded .label-description, .ml-embedded .ml-form-fieldRow label'
-  ).forEach(function(el) {
+<script>
+/* ── BARRA DE PROGRESO ── */
+window.addEventListener('scroll', function() {
+  var scrollTop = window.scrollY;
+  var docHeight = document.body.scrollHeight - window.innerHeight;
+  var pct = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+  document.getElementById('progress-bar').style.width = pct + '%';
+});
+
+/* ── SCROLL REVEAL ── */
+var revealObserver = new IntersectionObserver(function(entries) {
+  entries.forEach(function(entry) {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+    }
+  });
+}, { threshold: 0.12 });
+
+document.querySelectorAll('.fade-up, .fade-in').forEach(function(el) {
+  revealObserver.observe(el);
+});
+
+/* ── CONTADORES NUMÉRICOS ── */
+function animateCounter(el) {
+  var target = parseInt(el.getAttribute('data-target'));
+  var suffix = el.getAttribute('data-suffix') || '';
+  var isCurrency = el.classList.contains('field-val');
+  var duration = 1400;
+  var start = null;
+
+  function step(timestamp) {
+    if (!start) start = timestamp;
+    var progress = Math.min((timestamp - start) / duration, 1);
+    var ease = 1 - Math.pow(1 - progress, 3);
+    var current = Math.floor(ease * target);
+
+    if (isCurrency) {
+      el.textContent = '$' + current.toLocaleString('es-CO');
+    } else {
+      el.textContent = current + suffix;
+    }
+
+    if (progress < 1) requestAnimationFrame(step);
+    else {
+      if (isCurrency) {
+        el.textContent = '$' + target.toLocaleString('es-CO');
+      } else {
+        el.textContent = target + suffix;
+      }
+    }
+  }
+  requestAnimationFrame(step);
+}
+
+var counterObserver = new IntersectionObserver(function(entries) {
+  entries.forEach(function(entry) {
+    if (entry.isIntersecting && !entry.target.dataset.animated) {
+      entry.target.dataset.animated = 'true';
+      animateCounter(entry.target);
+    }
+  });
+}, { threshold: 0.5 });
+
+document.querySelectorAll('[data-target]').forEach(function(el) {
+  counterObserver.observe(el);
+});
+
+/* ── MAILERLITE STYLES FIX ── */
+function fixML() {
+  document.querySelectorAll('.ml-embedded input[type="email"], .ml-embedded input[type="text"]').forEach(function(el) {
+    el.style.cssText += 'background:#0E0E0E!important;background-color:#0E0E0E!important;color:#FFFFFF!important;border:1px solid rgba(255,215,0,0.28)!important;border-radius:4px!important;padding:15px 18px!important;font-family:Inter,sans-serif!important;font-size:0.95rem!important;';
+  });
+  document.querySelectorAll('.ml-embedded .ml-form-checkboxRow, .ml-embedded .ml-form-checkboxRow p, .ml-embedded .ml-form-checkboxRow span, .ml-embedded .ml-form-checkboxRow label, .ml-embedded label').forEach(function(el) {
     el.style.cssText += 'color:#888888!important;font-size:0.76rem!important;font-family:Inter,sans-serif!important;line-height:1.55!important;';
   });
-
-  // Links dentro del checkbox
   document.querySelectorAll('.ml-embedded a').forEach(function(el) {
     el.style.cssText += 'color:#FFD700!important;';
   });
-
-  // Fondo del wrapper
-  document.querySelectorAll(
-    '.ml-embedded .ml-form-embedWrapper, .ml-embedded .ml-form-embedBody, .ml-embedded .ml-form-embedBodyContent'
-  ).forEach(function(el) {
+  document.querySelectorAll('.ml-embedded .ml-form-embedWrapper, .ml-embedded .ml-form-embedBody').forEach(function(el) {
     el.style.cssText += 'background:transparent!important;background-color:transparent!important;box-shadow:none!important;border:none!important;padding:0!important;';
   });
-
-  // Ocultar título y descripción generados por MailerLite
-  document.querySelectorAll(
-    '.ml-embedded .ml-form-embedContent, .ml-embedded h4.ml-form-embedTitle'
-  ).forEach(function(el) {
-    el.style.display = 'none';
+  document.querySelectorAll('.ml-embedded button[type="submit"], .ml-embedded .ml-form-embedSubmit button').forEach(function(el) {
+    el.style.cssText += 'background:#FFD700!important;background-color:#FFD700!important;color:#000!important;border:none!important;border-radius:4px!important;font-family:Inter,sans-serif!important;font-size:0.78rem!important;font-weight:700!important;letter-spacing:0.07em!important;text-transform:uppercase!important;padding:15px 22px!important;width:100%!important;cursor:pointer!important;margin-top:10px!important;';
   });
 }
 
-// Ejecutar varias veces para asegurar que coge el momento exacto de renderizado
 setTimeout(fixML, 500);
 setTimeout(fixML, 1200);
 setTimeout(fixML, 2500);
-
-// Observer para cuando MailerLite inyecta el DOM dinámicamente
-var obs = new MutationObserver(function() { fixML(); });
-obs.observe(document.body, { childList: true, subtree: true });
+var mlObs = new MutationObserver(fixML);
+mlObs.observe(document.body, { childList: true, subtree: true });
 </script>
 </body>
 </html>
