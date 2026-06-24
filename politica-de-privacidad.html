@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Política de Privacidad — Rematistas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg:          #000000;
+    --gold:        #FFD700;
+    --gold-dim:    rgba(255,215,0,0.10);
+    --gold-border: rgba(255,215,0,0.28);
+    --white:       #FFFFFF;
+    --g1:          #0E0E0E;
+    --g2:          #181818;
+    --border:      #2A2A2A;
+    --gt:          #888888;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--white);
+    font-family: 'Inter', sans-serif;
+    font-weight: 300;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .serif { font-family: 'Playfair Display', serif; }
+  em { font-style: italic; color: var(--gold); }
+
+  .wrap { max-width: 720px; margin: 0 auto; padding: 0 28px; }
+
+  /* ── BARRA SUPERIOR ── */
+  .top-bar {
+    border-bottom: 1px solid var(--border);
+    padding: 20px 28px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--gold);
+    letter-spacing: 0.04em;
+    text-decoration: none;
+  }
+
+  .top-bar .back {
+    font-size: 0.78rem;
+    color: var(--gt);
+    text-decoration: none;
+    transition: color 0.15s;
+  }
+
+  .top-bar .back:hover { color: var(--gold); }
+
+  /* ── HERO ── */
+  .hero {
+    padding: 72px 0 56px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .eyebrow {
+    display: inline-block;
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 16px;
+  }
+
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 900;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    margin-bottom: 10px;
+  }
+
+  .gold-rule { width: 44px; height: 2px; background: var(--gold); margin: 18px 0 24px; }
+
+  .hero .meta {
+    font-size: 0.8rem;
+    color: var(--gt);
+  }
+
+  /* ── CONTENIDO ── */
+  .content {
+    padding: 64px 0 80px;
+  }
+
+  .section {
+    margin-bottom: 52px;
+    padding-bottom: 52px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .section:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+  }
+
+  .section-num {
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 10px;
+    display: block;
+  }
+
+  .section h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.35rem;
+    font-weight: 700;
+    line-height: 1.3;
+    margin-bottom: 20px;
+    color: var(--white);
+  }
+
+  .section p {
+    font-size: 0.95rem;
+    color: rgba(255,255,255,0.72);
+    line-height: 1.8;
+    margin-bottom: 16px;
+  }
+
+  .section p:last-child { margin-bottom: 0; }
+
+  .section ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 4px;
+  }
+
+  .section ul li {
+    font-size: 0.92rem;
+    color: rgba(255,255,255,0.68);
+    padding-left: 20px;
+    position: relative;
+    line-height: 1.65;
+  }
+
+  .section ul li::before {
+    content: '—';
+    position: absolute;
+    left: 0;
+    color: var(--gold);
+    font-weight: 600;
+  }
+
+  /* ── DESTACADO ── */
+  .highlight-box {
+    background: var(--gold-dim);
+    border: 1px solid var(--gold-border);
+    border-radius: 6px;
+    padding: 24px 28px;
+    margin-top: 20px;
+  }
+
+  .highlight-box p {
+    font-size: 0.88rem;
+    color: rgba(255,255,255,0.8);
+    margin-bottom: 0;
+  }
+
+  .highlight-box strong {
+    color: var(--gold);
+    font-weight: 600;
+  }
+
+  /* ── CONTACTO ── */
+  .contact-block {
+    background: var(--g1);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 28px 32px;
+    margin-top: 20px;
+  }
+
+  .contact-block p {
+    font-size: 0.88rem;
+    color: var(--gt);
+    margin-bottom: 8px;
+  }
+
+  .contact-block p:last-child { margin-bottom: 0; }
+
+  .contact-block a {
+    color: var(--gold);
+    text-decoration: none;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 36px 28px;
+    text-align: center;
+  }
+
+  footer p { font-size: 0.74rem; color: var(--gt); line-height: 1.7; }
+  footer a { color: var(--gold); text-decoration: none; }
+
+  @media (max-width: 560px) {
+    .top-bar { padding: 16px 20px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ── BARRA SUPERIOR ── -->
+<div class="top-bar">
+  <a href="https://rematistas.com" class="logo">Rematistas</a>
+  <a href="https://rematistas.com" class="back">← Volver al inicio</a>
+</div>
+
+
+<!-- ── HERO ── -->
+<section class="hero">
+  <div class="wrap">
+    <span class="eyebrow">Legal</span>
+    <h1 class="serif">Política de Tratamiento de <em>Datos Personales</em></h1>
+    <div class="gold-rule"></div>
+    <p class="meta">Última actualización: enero de 2025 &nbsp;·&nbsp; Vigente desde su publicación</p>
+  </div>
+</section>
+
+
+<!-- ── CONTENIDO ── -->
+<div class="content">
+  <div class="wrap">
+
+    <!-- 1 -->
+    <div class="section">
+      <span class="section-num">Artículo 01</span>
+      <h2>Responsable del Tratamiento</h2>
+      <p>
+        Rematistas (en adelante "Rematistas", "nosotros" o "el Responsable") es el responsable del tratamiento de los datos personales recopilados a través de sus canales digitales, incluyendo el sitio web <strong style="color:var(--gold);">rematistas.com</strong> y sus formularios de suscripción.
+      </p>
+      <p>
+        Rematistas controlará y administrará toda la información personal que los titulares suministren voluntariamente, de conformidad con la Ley 1581 de 2012 y el Decreto 1377 de 2013 de la República de Colombia.
+      </p>
+      <div class="highlight-box">
+        <p><strong>Contacto del Responsable:</strong> Para cualquier solicitud relacionada con el tratamiento de sus datos, escriba a <a href="mailto:contacto@rematistas.com" style="color:var(--gold);">contacto@rematistas.com</a>. Atenderemos su solicitud en un plazo máximo de 10 días hábiles.</p>
+      </div>
+    </div>
+
+    <!-- 2 -->
+    <div class="section">
+      <span class="section-num">Artículo 02</span>
+      <h2>Marco Legal Aplicable</h2>
+      <p>Esta política se rige por las siguientes normas de la República de Colombia:</p>
+      <ul>
+        <li>Ley 1581 de 2012 — Ley de Protección de Datos Personales</li>
+        <li>Decreto 1377 de 2013 — Reglamentación parcial de la Ley 1581</li>
+        <li>Decreto 1074 de 2015 — Decreto Único Reglamentario del Sector Comercio</li>
+        <li>Resolución 001 de 2015 de la Superintendencia de Industria y Comercio</li>
+      </ul>
+    </div>
+
+    <!-- 3 -->
+    <div class="section">
+      <span class="section-num">Artículo 03</span>
+      <h2>Datos que Recopilamos</h2>
+      <p>Rematistas recopila únicamente los datos que el titular suministra de manera voluntaria y consciente a través de nuestros formularios digitales:</p>
+      <ul>
+        <li>Correo electrónico</li>
+        <li>Nombre (cuando el titular lo proporciona voluntariamente)</li>
+        <li>Número de teléfono (cuando el titular lo proporciona voluntariamente)</li>
+        <li>Información de interacción con nuestras comunicaciones (apertura de correos, clics)</li>
+      </ul>
+      <p style="margin-top:16px;">No recopilamos datos sensibles, datos financieros, ni información de menores de edad. No recopilamos datos sin el consentimiento previo y expreso del titular.</p>
+    </div>
+
+    <!-- 4 -->
+    <div class="section">
+      <span class="section-num">Artículo 04</span>
+      <h2>Finalidad del Tratamiento</h2>
+      <p>Los datos recopilados por Rematistas se utilizan exclusivamente para las siguientes finalidades:</p>
+      <ul>
+        <li>Envío del listado semanal de oportunidades de remates judiciales de inmuebles en Colombia</li>
+        <li>Comunicaciones comerciales relacionadas con los servicios de asesoría en inversiones judiciales ofrecidos por Rematistas</li>
+        <li>Gestión de la relación comercial con el titular, incluyendo seguimiento de procesos y coordinación de servicios contratados</li>
+        <li>Mejora de nuestros servicios mediante el análisis estadístico agregado y anónimo del comportamiento de los suscriptores</li>
+        <li>Cumplimiento de obligaciones legales y regulatorias aplicables</li>
+      </ul>
+      <p style="margin-top:16px;">Rematistas no utilizará los datos para finalidades distintas a las aquí descritas sin obtener previamente el consentimiento del titular.</p>
+    </div>
+
+    <!-- 5 -->
+    <div class="section">
+      <span class="section-num">Artículo 05</span>
+      <h2>Control y Administración de la Información</h2>
+      <p>
+        Rematistas controlará de manera exclusiva toda la información personal suministrada por los titulares. Esta información será administrada con los más altos estándares de seguridad y confidencialidad.
+      </p>
+      <p>
+        Los datos son almacenados en plataformas de gestión de correo electrónico con certificaciones de seguridad internacionales. Rematistas exige a sus proveedores de tecnología el cumplimiento de estándares de protección de datos equivalentes o superiores a los establecidos en la legislación colombiana.
+      </p>
+      <div class="highlight-box">
+        <p><strong>Compromiso de control:</strong> Ningún tercero tendrá acceso a sus datos personales sin autorización expresa de Rematistas, salvo obligación legal emanada de autoridad competente.</p>
+      </div>
+    </div>
+
+    <!-- 6 -->
+    <div class="section">
+      <span class="section-num">Artículo 06</span>
+      <h2>Transferencia a Terceros</h2>
+      <p>Rematistas no vende, cede, arrienda ni transfiere los datos personales de sus titulares a terceros con fines comerciales propios de esos terceros.</p>
+      <p>Los datos podrán ser compartidos únicamente en los siguientes casos:</p>
+      <ul>
+        <li>Con proveedores de tecnología que actúan como encargados del tratamiento bajo instrucciones de Rematistas (plataformas de envío de correo, herramientas de gestión)</li>
+        <li>Cuando exista una obligación legal o una orden de autoridad judicial o administrativa competente</li>
+        <li>Cuando el titular haya otorgado autorización expresa y previa para una transferencia específica</li>
+      </ul>
+    </div>
+
+    <!-- 7 -->
+    <div class="section">
+      <span class="section-num">Artículo 07</span>
+      <h2>Derechos del Titular</h2>
+      <p>De conformidad con la Ley 1581 de 2012, el titular de los datos personales tiene los siguientes derechos:</p>
+      <ul>
+        <li><strong style="color:var(--white); font-weight:500;">Conocer</strong> — acceder gratuitamente a sus datos personales que han sido objeto de tratamiento</li>
+        <li><strong style="color:var(--white); font-weight:500;">Actualizar</strong> — solicitar la actualización de sus datos cuando sean parciales, inexactos o incompletos</li>
+        <li><strong style="color:var(--white); font-weight:500;">Rectificar</strong> — solicitar la corrección de datos inexactos</li>
+        <li><strong style="color:var(--white); font-weight:500;">Suprimir</strong> — solicitar la eliminación de sus datos cuando considere que no están siendo tratados conforme a la ley</li>
+        <li><strong style="color:var(--white); font-weight:500;">Revocar</strong> — retirar la autorización otorgada para el tratamiento de sus datos en cualquier momento</li>
+        <li><strong style="color:var(--white); font-weight:500;">Reclamar</strong> — presentar quejas ante la Superintendencia de Industria y Comercio (SIC) cuando considere que sus derechos han sido vulnerados</li>
+      </ul>
+    </div>
+
+    <!-- 8 -->
+    <div class="section">
+      <span class="section-num">Artículo 08</span>
+      <h2>Cómo Ejercer sus Derechos</h2>
+      <p>Para ejercer cualquiera de los derechos descritos en el Artículo 07, el titular debe enviar una solicitud escrita a través de los siguientes canales:</p>
+      <div class="contact-block">
+        <p>📧 Correo electrónico: <a href="mailto:contacto@rematistas.com">contacto@rematistas.com</a></p>
+        <p>📌 Asunto del mensaje: <strong style="color:var(--white);">"Protección de Datos — [Tipo de solicitud]"</strong></p>
+        <p style="margin-top:12px; font-size:0.82rem;">La solicitud debe incluir: nombre completo del titular, correo electrónico registrado, descripción clara de la solicitud y, si aplica, documentos de soporte.</p>
+        <p style="font-size:0.82rem;">Tiempo de respuesta: máximo <strong style="color:var(--white);">10 días hábiles</strong> para consultas y <strong style="color:var(--white);">15 días hábiles</strong> para reclamos, prorrogables según lo establece la ley.</p>
+      </div>
+    </div>
+
+    <!-- 9 -->
+    <div class="section">
+      <span class="section-num">Artículo 09</span>
+      <h2>Vigencia del Tratamiento</h2>
+      <p>
+        Los datos personales serán tratados durante el tiempo en que el titular mantenga su suscripción activa con Rematistas, o hasta que solicite expresamente su eliminación a través de los canales descritos en el Artículo 08.
+      </p>
+      <p>
+        Al momento de cancelar la suscripción o solicitar la supresión de datos, Rematistas eliminará la información personal del titular de sus bases de datos activas en un plazo no mayor a 30 días calendario, salvo que exista obligación legal de conservarla por un período determinado.
+      </p>
+    </div>
+
+    <!-- 10 -->
+    <div class="section">
+      <span class="section-num">Artículo 10</span>
+      <h2>Seguridad de la Información</h2>
+      <p>
+        Rematistas implementa medidas técnicas, humanas y administrativas razonables para proteger la información personal de los titulares contra acceso no autorizado, pérdida, alteración o destrucción.
+      </p>
+      <p>
+        En caso de que se presente una vulneración de seguridad que afecte los datos de los titulares, Rematistas notificará a las autoridades competentes y a los titulares afectados en los términos establecidos por la ley colombiana.
+      </p>
+    </div>
+
+    <!-- 11 -->
+    <div class="section">
+      <span class="section-num">Artículo 11</span>
+      <h2>Modificaciones a esta Política</h2>
+      <p>
+        Rematistas se reserva el derecho de modificar esta política en cualquier momento. Cualquier cambio sustancial será notificado a los titulares registrados a través del correo electrónico que suministraron, con un mínimo de 10 días hábiles de anticipación a su entrada en vigencia.
+      </p>
+      <p>
+        La versión vigente siempre estará disponible en <a href="https://rematistas.com/politica-de-privacidad.html" style="color:var(--gold);">rematistas.com/politica-de-privacidad.html</a>
+      </p>
+    </div>
+
+    <!-- 12 -->
+    <div class="section">
+      <span class="section-num">Artículo 12</span>
+      <h2>Autoridad de Control</h2>
+      <p>
+        La entidad encargada de velar por el cumplimiento de la Ley 1581 de 2012 en Colombia es la Superintendencia de Industria y Comercio (SIC). Si considera que Rematistas ha vulnerado sus derechos como titular de datos, puede presentar una queja ante esta entidad en:
+      </p>
+      <div class="contact-block">
+        <p>🌐 <a href="https://www.sic.gov.co" target="_blank">www.sic.gov.co</a></p>
+        <p>📍 Carrera 13 No. 27-00, Bogotá D.C., Colombia</p>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ── FOOTER ── -->
+<footer>
+  <p>© 2025 Rematistas &nbsp;·&nbsp; <a href="https://rematistas.com">Inicio</a> &nbsp;·&nbsp; Política de Privacidad</p>
+  <p style="margin-top:8px;">El contenido de esta página es informativo y no constituye asesoría jurídica ni financiera.</p>
+</footer>
+
+</body>
+</html>
