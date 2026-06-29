@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rematistas — Confirma tu correo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#000;--gold:#FFD700;--gdim:rgba(255,215,0,.10);--gbor:rgba(255,215,0,.28);--white:#fff;--g1:#0E0E0E;--g2:#181818;--gt:#888;--bor:#2A2A2A}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--white);font-family:'Inter',sans-serif;font-weight:300;line-height:1.65;-webkit-font-smoothing:antialiased;min-height:100vh;display:flex;flex-direction:column}
+
+.top-bar{border-bottom:1px solid var(--bor);padding:20px 28px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+.logo{font-family:'Playfair Display',serif;font-size:1.15rem;font-weight:700;color:var(--gold);letter-spacing:.04em;text-decoration:none}
+.back{font-size:.78rem;color:var(--gt);text-decoration:none;transition:color .15s}
+.back:hover{color:var(--gold)}
+
+/* MAIN */
+.main{flex:1;display:flex;align-items:center;justify-content:center;padding:60px 28px}
+.card-wrap{max-width:520px;width:100%;text-align:center}
+
+/* ENVELOPE ANIMATION */
+.envelope-wrap{width:100px;height:100px;margin:0 auto 32px;position:relative;opacity:0}
+.envelope-svg{width:100%;height:100%}
+
+/* RING PULSE */
+.ring{position:absolute;top:50%;left:50%;width:100px;height:100px;border-radius:50%;border:2px solid rgba(255,215,0,.4);transform:translate(-50%,-50%) scale(0);opacity:0}
+
+/* TYPOGRAPHY */
+.serif{font-family:'Playfair Display',serif}
+.title{font-size:clamp(1.8rem,4vw,2.6rem);font-weight:900;line-height:1.15;letter-spacing:-.02em;margin-bottom:12px;opacity:0;transform:translateY(24px)}
+.title em{font-style:italic;color:var(--gold)}
+.subtitle{font-size:1rem;color:rgba(255,255,255,.65);line-height:1.7;max-width:440px;margin:0 auto;opacity:0;transform:translateY(16px)}
+
+/* GOLD DIVIDER */
+.gold-rule{width:0;height:2px;background:var(--gold);margin:24px auto;opacity:0}
+
+/* EMAIL DISPLAY */
+.email-chip{display:inline-flex;align-items:center;gap:10px;background:var(--gdim);border:1px solid var(--gbor);border-radius:100px;padding:10px 20px;margin:24px auto 0;opacity:0;transform:scale(.9)}
+.email-chip .dot{width:8px;height:8px;border-radius:50%;background:var(--gold);animation:blink 1.4s ease-in-out infinite;flex-shrink:0}
+.email-chip .addr{font-size:.85rem;font-weight:500;color:var(--gold);letter-spacing:.02em}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.2}}
+
+/* STEPS */
+.steps-wrap{margin:36px auto 0;max-width:420px;text-align:left;opacity:0;transform:translateY(20px)}
+.step-item{display:flex;align-items:flex-start;gap:14px;padding:14px 0;border-bottom:1px solid var(--bor)}
+.step-item:last-child{border-bottom:none}
+.step-num{width:28px;height:28px;border-radius:50%;border:1px solid var(--gbor);display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:600;color:var(--gold);flex-shrink:0;margin-top:1px}
+.step-item h4{font-size:.88rem;font-weight:600;margin-bottom:3px}
+.step-item p{font-size:.78rem;color:var(--gt);line-height:1.55}
+
+/* SPAM NOTE */
+.spam-note{margin-top:28px;padding:16px 20px;background:var(--g1);border:1px solid var(--bor);border-radius:6px;text-align:left;opacity:0;transform:translateY(16px)}
+.spam-note p{font-size:.8rem;color:var(--gt);line-height:1.6}
+.spam-note strong{color:var(--white);font-weight:500}
+
+/* RESEND */
+.resend-wrap{margin-top:28px;opacity:0}
+.resend-wrap p{font-size:.8rem;color:var(--gt)}
+.btn-resend{background:none;border:1px solid var(--gbor);color:var(--gold);font-family:'Inter',sans-serif;font-size:.78rem;font-weight:600;padding:10px 20px;border-radius:4px;cursor:pointer;margin-top:10px;transition:background .2s,border-color .2s}
+.btn-resend:hover{background:var(--gdim);border-color:var(--gold)}
+.btn-resend:disabled{opacity:.4;cursor:default}
+
+/* COUNTDOWN */
+.countdown{display:inline-block;font-size:.72rem;color:var(--gt);margin-top:8px}
+.countdown span{color:var(--gold);font-weight:600}
+
+footer{border-top:1px solid var(--bor);padding:24px 28px;text-align:center;flex-shrink:0}
+footer p{font-size:.73rem;color:var(--gt)}
+footer a{color:var(--gold);text-decoration:none}
+</style>
+</head>
+<body>
+
+<div class="top-bar">
+  <a href="https://rematistas.com" class="logo">Rematistas</a>
+  <a href="https://rematistas.com" class="back">← Volver al inicio</a>
+</div>
+
+<main class="main">
+  <div class="card-wrap">
+
+    <!-- ENVELOPE ANIMADO -->
+    <div class="envelope-wrap" id="env-wrap">
+      <div class="ring" id="ring1"></div>
+      <div class="ring" id="ring2"></div>
+      <svg class="envelope-svg" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Cuerpo del sobre -->
+        <rect id="env-body" x="8" y="28" width="84" height="54" rx="4" stroke="#FFD700" stroke-width="2" fill="rgba(255,215,0,0.06)" stroke-dasharray="300" stroke-dashoffset="300"/>
+        <!-- Flap superior -->
+        <path id="env-flap" d="M8 32 L50 58 L92 32" stroke="#FFD700" stroke-width="2" fill="none" stroke-dasharray="120" stroke-dashoffset="120"/>
+        <!-- Líneas del papel saliendo -->
+        <line id="line1" x1="28" y1="48" x2="72" y2="48" stroke="rgba(255,215,0,0.4)" stroke-width="1.5" stroke-dasharray="44" stroke-dashoffset="44"/>
+        <line id="line2" x1="32" y1="56" x2="68" y2="56" stroke="rgba(255,215,0,0.3)" stroke-width="1.5" stroke-dasharray="36" stroke-dashoffset="36"/>
+        <line id="line3" x1="36" y1="64" x2="64" y2="64" stroke="rgba(255,215,0,0.2)" stroke-width="1.5" stroke-dasharray="28" stroke-dashoffset="28"/>
+      </svg>
+    </div>
+
+    <h1 class="serif title" id="el-title">Revisa tu correo.<br><em>El link te espera.</em></h1>
+    <div class="gold-rule" id="el-rule"></div>
+    <p class="subtitle" id="el-sub">Te enviamos un email de confirmación. Haz clic en el enlace que está adentro y en segundos estarás en la lista dominical.</p>
+
+    <!-- EMAIL DETECTADO -->
+    <div class="email-chip" id="el-chip">
+      <span class="dot"></span>
+      <span class="addr" id="el-email">tu correo</span>
+    </div>
+
+    <!-- PASOS -->
+    <div class="steps-wrap" id="el-steps">
+      <div class="step-item">
+        <div class="step-num">1</div>
+        <div>
+          <h4>Abre el email de Rematistas</h4>
+          <p>Busca un email con el asunto <strong style="color:var(--white)">"Confirma tu suscripción"</strong> — llega en menos de 2 minutos.</p>
+        </div>
+      </div>
+      <div class="step-item">
+        <div class="step-num">2</div>
+        <div>
+          <h4>Haz clic en "Confirmar suscripción"</h4>
+          <p>Un solo clic es suficiente. Te redirige automáticamente a tu página de bienvenida.</p>
+        </div>
+      </div>
+      <div class="step-item">
+        <div class="step-num">3</div>
+        <div>
+          <h4>Listo — el próximo domingo recibes el listado</h4>
+          <p>A partir de ahora cada domingo llegan los remates que ya pasaron nuestro filtro.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- NOTA DE SPAM -->
+    <div class="spam-note" id="el-spam">
+      <p>📂 <strong>¿No lo ves en la bandeja de entrada?</strong> Revisa la carpeta de <strong>Spam</strong>, <strong>Promociones</strong> o <strong>Actualizaciones</strong>. Si está ahí, márcalo como "No es spam" para que los próximos lleguen directo.</p>
+    </div>
+
+    <!-- REENVIAR -->
+    <div class="resend-wrap" id="el-resend">
+      <p>¿No llegó el email?</p>
+      <button class="btn-resend" id="btn-resend" onclick="handleResend()">Reenviar email de confirmación</button>
+      <br>
+      <span class="countdown" id="el-countdown" style="display:none">Puedes reenviar en <span id="cd-num">60</span>s</span>
+    </div>
+
+  </div>
+</main>
+
+<footer>
+  <p>© 2025 Rematistas &nbsp;·&nbsp; <a href="https://rematistas.com/politica-de-privacidad.html">Política de Privacidad</a></p>
+</footer>
+
+<script>
+/* ── LEER EMAIL DE URL PARAMS ── */
+var params=new URLSearchParams(window.location.search);
+var emailParam=params.get('email');
+if(emailParam){document.getElementById('el-email').textContent=emailParam;}
+
+/* ── ANIMACIÓN DEL SOBRE SVG ── */
+gsap.set('#env-wrap',{opacity:0,scale:.7,y:20});
+var tl=gsap.timeline({delay:.2});
+
+// 1. Sobre aparece
+tl.to('#env-wrap',{opacity:1,scale:1,y:0,duration:.6,ease:'back.out(1.7)'})
+// 2. Cuerpo del sobre se dibuja
+  .to('#env-body',{strokeDashoffset:0,duration:.6,ease:'power2.inOut'},'-=.2')
+// 3. Flap se dibuja
+  .to('#env-flap',{strokeDashoffset:0,duration:.4,ease:'power2.inOut'},'-=.1')
+// 4. Líneas del papel
+  .to('#line1',{strokeDashoffset:0,duration:.3,ease:'power2.out'})
+  .to('#line2',{strokeDashoffset:0,duration:.3,ease:'power2.out'},'-=.15')
+  .to('#line3',{strokeDashoffset:0,duration:.3,ease:'power2.out'},'-=.15')
+// 5. Pulsos de ring
+  .to('#ring1',{scale:1.8,opacity:0,duration:.8,ease:'power2.out'},'<-.1')
+  .to('#ring2',{scale:2.2,opacity:0,duration:1,ease:'power2.out',delay:.2},'<')
+// 6. Título
+  .to('#el-title',{opacity:1,y:0,duration:.7,ease:'power3.out'},'-=.4')
+// 7. Línea dorada
+  .to('#el-rule',{width:44,opacity:1,duration:.5,ease:'power2.inOut'},'-=.3')
+// 8. Subtítulo
+  .to('#el-sub',{opacity:1,y:0,duration:.6,ease:'power3.out'},'-=.3')
+// 9. Email chip
+  .to('#el-chip',{opacity:1,scale:1,duration:.5,ease:'back.out(1.5)'},'-=.2')
+// 10. Pasos
+  .to('#el-steps',{opacity:1,y:0,duration:.6,ease:'power3.out'},'-=.1')
+// 11. Spam note
+  .to('#el-spam',{opacity:1,y:0,duration:.5,ease:'power3.out'},'-=.1')
+// 12. Resend
+  .to('#el-resend',{opacity:1,duration:.5},'-=.1');
+
+// Sobre flota suavemente después de la animación
+tl.to('#env-wrap',{y:-8,duration:2.5,ease:'sine.inOut',yoyo:true,repeat:-1},'+=.5');
+
+/* ── PULSO PERIÓDICO DEL SOBRE ── */
+setInterval(function(){
+  gsap.to('#env-wrap',{scale:1.06,duration:.2,ease:'power2.out',yoyo:true,repeat:1});
+},4000);
+
+/* ── REENVIAR CON COOLDOWN ── */
+var canResend=true;
+function handleResend(){
+  if(!canResend)return;
+  canResend=false;
+  var btn=document.getElementById('btn-resend');
+  var cdt=document.getElementById('el-countdown');
+  var cdNum=document.getElementById('cd-num');
+  btn.disabled=true;
+  btn.textContent='Email reenviado ✓';
+  cdt.style.display='block';
+  var secs=60;
+  var timer=setInterval(function(){
+    secs--;cdNum.textContent=secs;
+    if(secs<=0){clearInterval(timer);canResend=true;btn.disabled=false;btn.textContent='Reenviar email de confirmación';cdt.style.display='none';}
+  },1000);
+  // Animar sobre otra vez
+  gsap.to('#env-wrap',{rotateY:360,duration:.8,ease:'power2.inOut',onComplete:function(){gsap.set('#env-wrap',{rotateY:0});}});
+}
+</script>
+</body>
+</html>
