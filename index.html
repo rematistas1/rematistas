@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rematistas — Lista Dominical de Remates Judiciales</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+<script>(function(w,d,e,u,f,l,n){w[f]=w[f]||function(){(w[f].q=w[f].q||[]).push(arguments);},l=d.createElement(e),l.async=1,l.src=u,n=d.getElementsByTagName(e)[0],n.parentNode.insertBefore(l,n);})(window,document,'script','https://assets.mailerlite.com/js/universal.js','ml');ml('account','2467759');</script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#000;--gold:#FFD700;--gdim:rgba(255,215,0,.10);--gbor:rgba(255,215,0,.28);
+  --white:#fff;--g1:#0E0E0E;--g2:#181818;--gt:#888;--bor:#2A2A2A;
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--white);font-family:'Inter',sans-serif;font-weight:300;line-height:1.65;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+#prog{position:fixed;top:0;left:0;width:0%;height:3px;background:linear-gradient(90deg,#FFD700,#FFF0A0,#FFD700);z-index:999;box-shadow:0 0 10px rgba(255,215,0,.7)}
+#particles-canvas{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0}
+
+/* TOAST */
+#toast{position:fixed;bottom:32px;left:50%;transform:translateX(-50%) translateY(80px);background:#FFD700;color:#000;font-family:'Inter',sans-serif;font-size:.85rem;font-weight:700;padding:14px 28px;border-radius:100px;z-index:9999;opacity:0;pointer-events:none;white-space:nowrap;box-shadow:0 4px 24px rgba(255,215,0,.4)}
+
+/* TYPE */
+.serif{font-family:'Playfair Display',serif}
+.xl{font-size:clamp(2.2rem,5vw,3.8rem);line-height:1.08;font-weight:900;letter-spacing:-.02em}
+.lg{font-size:clamp(1.7rem,3vw,2.5rem);line-height:1.15;font-weight:700;letter-spacing:-.01em}
+em{font-style:italic;color:var(--gold)}
+.eyebrow{display:inline-block;font-size:.68rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin-bottom:18px}
+.muted{color:rgba(255,255,255,.62);font-size:1.05rem;line-height:1.75}
+.wrap{max-width:680px;margin:0 auto;padding:0 28px}
+.wrap-lg{max-width:980px;margin:0 auto;padding:0 28px}
+.gold-rule{width:44px;height:2px;background:var(--gold);margin:18px 0 26px}
+.gold-rule.center{margin:18px auto 26px}
+
+/* HERO */
+.hero{min-height:100vh;display:flex;align-items:center;padding:100px 0 80px;position:relative;overflow:hidden}
+.hero-content{position:relative;z-index:1}
+.hero h1{margin-bottom:10px}
+.hero .muted{margin:24px 0 40px;max-width:560px}
+.badge{display:inline-flex;align-items:center;gap:8px;background:var(--gdim);border:1px solid var(--gbor);border-radius:100px;padding:6px 14px;font-size:.72rem;font-weight:600;color:var(--gold);letter-spacing:.06em;margin-bottom:24px}
+.dot{width:6px;height:6px;border-radius:50%;background:var(--gold);animation:blink 1.4s ease-in-out infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.15}}
+
+/* ═══ CAJÓN (FORM BOX) ═══ */
+.cajón{background:var(--g1);border:1px solid var(--gbor);border-radius:8px;overflow:hidden;position:relative;box-shadow:0 0 40px rgba(255,215,0,.07)}
+.cajón::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent)}
+.cajón-header{background:var(--gdim);padding:10px 24px;border-bottom:1px solid var(--gbor);display:flex;align-items:center;gap:10px}
+.cajón-tag{font-size:.64rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--gold)}
+.cajón-dot{width:5px;height:5px;border-radius:50%;background:var(--gold);animation:blink 1.4s ease-in-out infinite}
+.cajón-body{padding:28px 24px}
+.cajón-title{font-family:'Playfair Display',serif;font-size:1.15rem;font-weight:700;margin-bottom:18px;line-height:1.3}
+.cajón-title em{font-style:italic;color:var(--gold)}
+
+/* EMAIL INPUT ROW */
+.email-row{display:flex;border:1px solid var(--gbor);border-radius:4px;overflow:hidden;background:var(--bg);transition:border-color .2s,box-shadow .2s}
+.email-row:focus-within{border-color:var(--gold);box-shadow:0 0 0 3px rgba(255,215,0,.12)}
+.email-row input[type="email"]{flex:1;min-width:0;background:transparent;border:none;outline:none;color:var(--white);font-family:'Inter',sans-serif;font-size:.95rem;font-weight:300;padding:15px 18px}
+.email-row input[type="email"]::placeholder{color:var(--gt)}
+.btn-sub{background:var(--gold);color:#000;border:none;font-family:'Inter',sans-serif;font-size:.76rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;padding:0 22px;cursor:pointer;white-space:nowrap;flex-shrink:0;transition:opacity .15s,transform .1s}
+.btn-sub:hover{opacity:.88}
+.btn-sub:active{transform:scale(.97)}
+.check-row{display:flex;align-items:flex-start;gap:10px;margin-top:12px}
+.check-row input[type="checkbox"]{margin-top:3px;accent-color:var(--gold);flex-shrink:0;width:14px;height:14px}
+.check-row span{font-size:.73rem;color:var(--gt);line-height:1.5}
+.check-row a{color:var(--gold);text-decoration:none}
+.cajón-note{font-size:.71rem;color:var(--gt);margin-top:10px}
+
+/* CAJÓN VARIANTES */
+.cajón-inline{max-width:500px}
+.cajón-full{max-width:100%}
+.cajón-split{display:grid;grid-template-columns:1fr 1fr;gap:0}
+.cajón-split .split-copy{padding:36px 32px;border-right:1px solid var(--gbor);display:flex;flex-direction:column;justify-content:center;gap:12px}
+.cajón-split .split-form{padding:36px 32px;display:flex;flex-direction:column;justify-content:center;gap:12px}
+.cajón-closing{text-align:center;background:linear-gradient(135deg,var(--g1) 0%,var(--g2) 100%)}
+.cajón-closing .cajón-body{padding:48px 32px}
+.cajón-closing .email-row{max-width:480px;margin:0 auto}
+.cajón-closing .check-row{justify-content:center;max-width:480px;margin:0 auto}
+.cajón-closing .cajón-note{text-align:center}
+
+/* STATS */
+.stats-strip{border-top:1px solid var(--bor);border-bottom:1px solid var(--bor);padding:32px 0;background:var(--g1)}
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr))}
+.stat{text-align:center;padding:16px 24px;border-right:1px solid var(--bor)}
+.stat:last-child{border-right:none}
+.stat-num{font-family:'Playfair Display',serif;font-size:2rem;font-weight:900;color:var(--gold);line-height:1;margin-bottom:6px}
+.stat-lbl{font-size:.72rem;color:var(--gt);letter-spacing:.06em;text-transform:uppercase}
+
+/* RISK */
+.risk{background:var(--g1);border-bottom:1px solid var(--bor);padding:88px 0}
+.risk-head{text-align:center;margin-bottom:60px}
+.risk-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));border:1px solid var(--bor)}
+.risk-card{padding:40px 32px;border-right:1px solid var(--bor);background:var(--g1);cursor:default;transition:background .25s}
+.risk-card:last-child{border-right:none}
+.risk-card:hover{background:var(--g2)}
+.risk-n{font-family:'Playfair Display',serif;font-size:3.2rem;font-weight:900;color:rgba(255,215,0,.13);line-height:1;margin-bottom:18px;transition:color .3s}
+.risk-card:hover .risk-n{color:rgba(255,215,0,.35)}
+.risk-card h3{font-size:.97rem;font-weight:600;margin-bottom:12px;line-height:1.45}
+.risk-card p{font-size:.86rem;color:var(--gt);line-height:1.7}
+
+/* PREVIEW */
+.preview{padding:96px 0}
+.preview-head{text-align:center;margin-bottom:52px}
+.card{max-width:600px;margin:0 auto;border:1px solid var(--gbor);border-radius:6px;overflow:hidden;background:var(--g2);box-shadow:0 0 60px rgba(255,215,0,.06);transition:box-shadow .4s}
+.card:hover{box-shadow:0 0 100px rgba(255,215,0,.18)}
+.card-head{background:var(--gold);color:#000;padding:11px 24px;display:flex;justify-content:space-between;align-items:center;gap:12px}
+.card-head .tipo{font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase}
+.cbadge{background:#000;color:var(--gold);font-size:.65rem;font-weight:700;padding:4px 10px;border-radius:2px;letter-spacing:.1em;text-transform:uppercase;white-space:nowrap}
+.card-body{padding:8px 0}
+.data-row{display:flex;justify-content:space-between;align-items:baseline;padding:13px 24px;border-bottom:1px solid var(--bor);gap:16px;transition:background .15s}
+.data-row:last-child{border-bottom:none}
+.data-row:hover{background:rgba(255,215,0,.03)}
+.field-lbl{font-size:.73rem;color:var(--gt);text-transform:uppercase;letter-spacing:.08em;flex-shrink:0}
+.field-val{font-size:.92rem;font-weight:500;text-align:right}
+.field-val.gld{color:var(--gold);font-size:1.05rem;font-weight:600}
+.field-val.blr{filter:blur(7px);user-select:none;color:var(--gt);font-size:.88rem}
+.card-foot{background:var(--g1);padding:14px 24px;display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;border-top:1px solid var(--bor)}
+.card-foot p{font-size:.76rem;color:var(--gt)}
+.lk{font-size:.76rem;color:var(--gold);font-weight:600;cursor:default;white-space:nowrap}
+.preview-note{text-align:center;margin-top:18px;font-size:.74rem;color:var(--gt)}
+
+/* PROCESS */
+.process{padding:96px 0}
+.process-head{text-align:center;margin-bottom:64px}
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:48px}
+.step{display:flex;flex-direction:column;gap:16px}
+.step-num{width:38px;height:38px;border:1px solid var(--gbor);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:600;color:var(--gold);transition:background .2s,border-color .2s,transform .3s}
+.step:hover .step-num{background:var(--gdim);border-color:var(--gold);transform:scale(1.15) rotate(10deg)}
+.step h3{font-size:1rem;font-weight:600;line-height:1.4}
+.step p{font-size:.86rem;color:var(--gt);line-height:1.72}
+
+/* SECTION WRAPPERS */
+.cajón-section{padding:64px 0;background:var(--bg)}
+.cajón-section.alt{background:var(--g1);border-top:1px solid var(--bor);border-bottom:1px solid var(--bor)}
+
+/* HIDDEN ML FORM */
+.ml-hidden{position:absolute;left:-9999px;top:-9999px;width:1px;height:1px;overflow:hidden;opacity:0;pointer-events:none}
+.ml-embedded{width:100%;max-width:400px}
+
+footer{border-top:1px solid var(--bor);padding:36px 0;text-align:center}
+footer p{font-size:.74rem;color:var(--gt);line-height:1.7}
+footer a{color:var(--gold);text-decoration:none}
+
+@media(max-width:640px){
+  .cajón-split{grid-template-columns:1fr}
+  .cajón-split .split-copy{border-right:none;border-bottom:1px solid var(--gbor);padding:24px}
+  .cajón-split .split-form{padding:24px}
+  .risk-card{border-right:none;border-bottom:1px solid var(--bor)}
+  .risk-card:last-child{border-bottom:none}
+  .card-head{flex-direction:column;align-items:flex-start;gap:8px}
+  .stat{border-right:none;border-bottom:1px solid var(--bor)}
+  .stat:last-child{border-bottom:none}
+  .email-row{flex-direction:column}
+  .btn-sub{padding:14px;text-align:center}
+}
+</style>
+</head>
+<body>
+
+<div id="prog"></div>
+<div id="toast">✓ ¡Listo! Te llegará el próximo domingo.</div>
+
+<!-- ═══════════════════════════════════
+     HERO
+════════════════════════════════════ -->
+<section class="hero">
+  <canvas id="particles-canvas"></canvas>
+  <div class="wrap hero-content">
+    <div class="badge" id="el-badge"><span class="dot"></span>Próxima lista · Este domingo</div>
+    <h1 class="serif xl" id="el-h1">
+      Los remates que ya<br>
+      <em>sobrevivieron nuestro filtro.</em><br>
+      Directo a tu correo.
+    </h1>
+    <div class="gold-rule" id="el-rule"></div>
+    <p class="muted" id="el-sub">Los procesos judiciales de remate son públicos. Lo que decide si una inversión funciona está en los detalles que esa publicación no incluye — y que solo se ven leyendo el expediente completo.</p>
+
+    <!-- CAJÓN 1 — HERO -->
+    <div class="cajón cajón-inline" id="cajón1">
+      <div class="cajón-header">
+        <span class="cajón-dot"></span>
+        <span class="cajón-tag">Suscripción gratuita</span>
+      </div>
+      <div class="cajón-body">
+        <div class="cajón-title">Recibe los remates <em>filtrados</em> cada domingo</div>
+        <div class="email-row">
+          <input type="email" placeholder="tucorreo@email.com" class="js-email" id="e1">
+          <button class="btn-sub js-btn">Quiero el listado</button>
+        </div>
+        <label class="check-row">
+          <input type="checkbox" class="js-check" required>
+          <span>Autorizo el tratamiento de mis datos conforme a la <a href="https://rematistas.com/politica-de-privacidad.html">Política de Privacidad</a> y la Ley 1581 de 2012.</span>
+        </label>
+        <p class="cajón-note">Sin spam · Solo remates reales · Cada domingo</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════
+     STATS
+════════════════════════════════════ -->
+<div class="stats-strip">
+  <div class="wrap-lg">
+    <div class="stats-grid">
+      <div class="stat gs-stat"><div class="stat-num" data-v="90" data-s="%">0%</div><div class="stat-lbl">de remates con información incompleta</div></div>
+      <div class="stat gs-stat"><div class="stat-num" data-v="3" data-s=" hitos">0</div><div class="stat-lbl">de cobro atados al avance real</div></div>
+      <div class="stat gs-stat"><div class="stat-num" data-v="5" data-s="%">0%</div><div class="stat-lbl">comisión sobre valor de adjudicación</div></div>
+      <div class="stat gs-stat"><div class="stat-num" data-v="70" data-s="%">0%</div><div class="stat-lbl">del avalúo es tu postura de entrada</div></div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════
+     RIESGOS
+════════════════════════════════════ -->
+<section class="risk">
+  <div class="wrap-lg">
+    <div class="risk-head gs-up">
+      <span class="eyebrow">Lo que la publicación no dice</span>
+      <div class="gold-rule center"></div>
+      <h2 class="serif lg">Tres capas de complejidad que definen el resultado</h2>
+      <p class="muted" style="max-width:520px;margin:18px auto 0">La información disponible públicamente de un proceso judicial es el punto de partida, no el diagnóstico completo.</p>
+    </div>
+    <div class="risk-grid">
+      <div class="risk-card gs-card" data-tilt><div class="risk-n">01</div><h3>Gravámenes adicionales que no aparecen en la publicación del remate</h3><p>Un inmueble puede acumular múltiples obligaciones con distintos acreedores a lo largo de su historia. Esta información existe en registros dispersos que requieren búsqueda especializada.</p></div>
+      <div class="risk-card gs-card" data-tilt><div class="risk-n">02</div><h3>Historial procesal que puede derivar en recursos posteriores a la adjudicación</h3><p>Los procesos judiciales tienen etapas con requisitos específicos. Un expediente con inconsistencias puede ser objeto de recursos legales después de la adjudicación.</p></div>
+      <div class="risk-card gs-card" data-tilt><div class="risk-n">03</div><h3>Obligaciones fiscales y de administración que van con el inmueble</h3><p>Predial acumulado, cuotas de administración pendientes, servicios sin cancelar. Obligaciones que son responsabilidad del nuevo propietario desde la adjudicación.</p></div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════
+     CAJÓN 2 — DESPUÉS DE RIESGOS
+════════════════════════════════════ -->
+<section class="cajón-section alt">
+  <div class="wrap-lg">
+    <div class="cajón cajón-split gs-cajón" id="cajón2">
+      <div class="cajón-header" style="grid-column:1/-1">
+        <span class="cajón-dot"></span>
+        <span class="cajón-tag">El próximo domingo</span>
+      </div>
+      <div class="split-copy">
+        <span class="eyebrow" style="margin-bottom:10px">No entres solo</span>
+        <h3 class="serif" style="font-size:1.4rem;font-weight:700;line-height:1.3">Estos tres riesgos<br><em>los filtramos nosotros</em><br>antes de enviarte la lista</h3>
+        <p style="font-size:.88rem;color:var(--gt);line-height:1.7;margin-top:8px">Solo llegan a tu correo los remates que ya pasaron la revisión preliminar. Tú decides si vale la pena avanzar.</p>
+      </div>
+      <div class="split-form">
+        <div style="font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;margin-bottom:16px;line-height:1.3">Recibe el listado<br><em>este domingo</em></div>
+        <div class="email-row">
+          <input type="email" placeholder="tucorreo@email.com" class="js-email" id="e2">
+          <button class="btn-sub js-btn">Suscribirme</button>
+        </div>
+        <label class="check-row">
+          <input type="checkbox" class="js-check" required>
+          <span>Autorizo el tratamiento de mis datos conforme a la <a href="https://rematistas.com/politica-de-privacidad.html">Política de Privacidad</a> y la Ley 1581 de 2012.</span>
+        </label>
+        <p class="cajón-note">Sin spam · Cancela cuando quieras</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════
+     PREVIEW CARD
+════════════════════════════════════ -->
+<section class="preview">
+  <div class="wrap">
+    <div class="preview-head gs-up">
+      <span class="eyebrow">Muestra dominical</span>
+      <div class="gold-rule center"></div>
+      <h2 class="serif lg">Esto llega a tu correo cada domingo</h2>
+      <p class="muted" style="margin-top:16px;max-width:500px;margin-left:auto;margin-right:auto">Cada entrada incluye lo que necesitas para evaluar si vale la pena avanzar. Los datos del expediente se comparten solo con quien firma el acuerdo de confidencialidad.</p>
+    </div>
+    <div class="card gs-flip">
+      <div class="card-head"><span class="tipo">🏠 Apartamento · Bogotá — Zona Norte</span><span class="cbadge">⬤ Oportunidad alta</span></div>
+      <div class="card-body">
+        <div class="data-row"><span class="field-lbl">Avalúo comercial</span><span class="field-val gs-num" data-v="285000000">$285.000.000</span></div>
+        <div class="data-row"><span class="field-lbl">Tu postura de entrada (70%)</span><span class="field-val gld gs-num" data-v="199500000">$199.500.000</span></div>
+        <div class="data-row"><span class="field-lbl">Fecha del remate</span><span class="field-val">15 de julio de 2025</span></div>
+        <div class="data-row"><span class="field-lbl">Tipo de inmueble</span><span class="field-val">Apartamento residencial</span></div>
+        <div class="data-row"><span class="field-lbl">Juzgado</span><span class="field-val blr">Juzgado 14 Civil del Circuito</span></div>
+        <div class="data-row"><span class="field-lbl">Número de proceso</span><span class="field-val blr">11001310300620240048</span></div>
+        <div class="data-row"><span class="field-lbl">Matrícula inmobiliaria</span><span class="field-val blr">050C-1234567</span></div>
+      </div>
+      <div class="card-foot"><p>Datos completos tras firma del acuerdo de confidencialidad</p><span class="lk">Solicitar información completa →</span></div>
+    </div>
+    <p class="preview-note">* Ejemplo ilustrativo. Cada domingo recibes entre 3 y 8 oportunidades reales con este formato.</p>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════
+     CAJÓN 3 — DESPUÉS DEL PREVIEW
+════════════════════════════════════ -->
+<section class="cajón-section">
+  <div class="wrap">
+    <div class="cajón cajón-full gs-cajón" id="cajón3">
+      <div class="cajón-header">
+        <span class="cajón-dot"></span>
+        <span class="cajón-tag">¿Este remate te interesa?</span>
+      </div>
+      <div class="cajón-body">
+        <div class="cajón-title" style="max-width:520px">Para ver los datos completos primero <em>entra a la lista dominical.</em></div>
+        <div style="max-width:520px">
+          <div class="email-row">
+            <input type="email" placeholder="tucorreo@email.com" class="js-email" id="e3">
+            <button class="btn-sub js-btn">Quiero ver los remates completos</button>
+          </div>
+          <label class="check-row">
+            <input type="checkbox" class="js-check" required>
+            <span>Autorizo el tratamiento de mis datos conforme a la <a href="https://rematistas.com/politica-de-privacidad.html">Política de Privacidad</a> y la Ley 1581 de 2012.</span>
+          </label>
+          <p class="cajón-note">Sin spam · Solo remates reales · Cada domingo</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════
+     PROCESO
+════════════════════════════════════ -->
+<section class="process" style="background:var(--g1);border-top:1px solid var(--bor)">
+  <div class="wrap-lg">
+    <div class="process-head gs-up">
+      <span class="eyebrow">Nuestro proceso</span>
+      <div class="gold-rule center"></div>
+      <h2 class="serif lg">Nosotros hacemos el trabajo especializado</h2>
+    </div>
+    <div class="steps">
+      <div class="step gs-step"><div class="step-num">1</div><h3>Curaduría semanal</h3><p>Revisamos los remates disponibles y aplicamos nuestros criterios de selección. Solo los que superan el filtro inicial llegan a tu lista del domingo.</p></div>
+      <div class="step gs-step"><div class="step-num">2</div><h3>Diagnóstico jurídico</h3><p>Cuando quieres avanzar, nuestro equipo legal lee el expediente completo y te entrega un diagnóstico de viabilidad antes de que pongas capital en juego.</p></div>
+      <div class="step gs-step"><div class="step-num">3</div><h3>Acompañamiento completo</h3><p>Si decides pujar, coordinamos el proceso de inicio a fin — desde la postura hasta la entrega material del inmueble.</p></div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════
+     CAJÓN 4 — CIERRE
+════════════════════════════════════ -->
+<section class="cajón-section" style="padding:80px 0">
+  <div class="wrap">
+    <div class="gs-up" style="text-align:center;margin-bottom:40px">
+      <span class="eyebrow">Gratis · Cada domingo</span>
+      <div class="gold-rule center"></div>
+      <h2 class="serif xl">Los remates no esperan.<br><em>Tú tampoco deberías.</em></h2>
+      <p class="muted" style="margin:20px auto 0;max-width:460px">Suscríbete gratis y recibe cada domingo los remates que ya pasaron nuestro proceso de selección.</p>
+    </div>
+    <div class="cajón cajón-closing gs-cajón" id="cajón4">
+      <div class="cajón-header" style="justify-content:center">
+        <span class="cajón-dot"></span>
+        <span class="cajón-tag">Última oportunidad de esta semana</span>
+      </div>
+      <div class="cajón-body">
+        <div class="cajón-title" style="font-size:1.3rem;margin-bottom:24px">Entra a la lista <em>antes del domingo</em></div>
+        <div class="email-row" style="max-width:480px;margin:0 auto">
+          <input type="email" placeholder="tucorreo@email.com" class="js-email" id="e4">
+          <button class="btn-sub js-btn">Quiero el listado</button>
+        </div>
+        <label class="check-row" style="justify-content:center;max-width:480px;margin:12px auto 0">
+          <input type="checkbox" class="js-check" required>
+          <span>Autorizo el tratamiento de mis datos conforme a la <a href="https://rematistas.com/politica-de-privacidad.html">Política de Privacidad</a> y la Ley 1581 de 2012.</span>
+        </label>
+        <p class="cajón-note" style="text-align:center;margin-top:10px">Sin spam · Sin datos del expediente para curiosos · Solo oportunidades reales</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- MAILERLITE OCULTO — maneja la suscripción real -->
+<div class="ml-hidden" aria-hidden="true">
+  <div class="ml-embedded" data-form="L68tUG"></div>
+</div>
+
+<footer>
+  <div class="wrap">
+    <p>© 2025 Rematistas &nbsp;·&nbsp; <a href="https://rematistas.com/politica-de-privacidad.html">Política de Privacidad</a> &nbsp;·&nbsp; Todos los derechos reservados</p>
+    <p style="margin-top:8px">El contenido de esta página es informativo y no constituye asesoría jurídica ni financiera.</p>
+  </div>
+</footer>
+
+<script>
+gsap.registerPlugin(ScrollTrigger);
+
+/* ── PROGRESS BAR ── */
+gsap.to('#prog',{width:'100%',ease:'none',scrollTrigger:{trigger:'body',start:'top top',end:'bottom bottom',scrub:true}});
+
+/* ── THREE.JS PARTICLES ── */
+(function(){
+  var c=document.getElementById('particles-canvas');
+  var scene=new THREE.Scene();
+  var cam=new THREE.PerspectiveCamera(60,innerWidth/innerHeight,.1,1000);
+  var renderer=new THREE.WebGLRenderer({canvas:c,alpha:true,antialias:true});
+  renderer.setSize(innerWidth,innerHeight);renderer.setPixelRatio(Math.min(devicePixelRatio,2));
+  var count=200,geo=new THREE.BufferGeometry(),pos=new Float32Array(count*3);
+  for(var i=0;i<count;i++){pos[i*3]=(Math.random()-.5)*32;pos[i*3+1]=(Math.random()-.5)*22;pos[i*3+2]=(Math.random()-.5)*10;}
+  geo.setAttribute('position',new THREE.BufferAttribute(pos,3));
+  var pts=new THREE.Points(geo,new THREE.PointsMaterial({color:0xFFD700,size:.06,transparent:true,opacity:.4,sizeAttenuation:true}));
+  scene.add(pts);cam.position.z=8;
+  var mx=0,my=0;
+  document.addEventListener('mousemove',function(e){mx=(e.clientX/innerWidth-.5)*.6;my=(e.clientY/innerHeight-.5)*.6;});
+  function tick(){requestAnimationFrame(tick);pts.rotation.y+=.0008;pts.rotation.x+=.0003;cam.position.x+=(mx-cam.position.x)*.02;cam.position.y+=(-my-cam.position.y)*.02;cam.lookAt(scene.position);renderer.render(scene,cam);}
+  tick();
+  window.addEventListener('resize',function(){cam.aspect=innerWidth/innerHeight;cam.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight);});
+})();
+
+/* ── HERO ENTRANCE ── */
+gsap.set(['#el-badge','#el-h1','#el-rule','#el-sub','#cajón1'],{opacity:0,y:function(i){return[16,40,0,24,36][i];}});
+gsap.set('#el-rule',{width:0});
+var htl=gsap.timeline({defaults:{ease:'power3.out'},delay:.2});
+htl.to('#el-badge',{opacity:1,y:0,duration:.6})
+   .to('#el-h1',{opacity:1,y:0,duration:.9},'-=.3')
+   .to('#el-rule',{width:44,opacity:1,duration:.5,ease:'power2.inOut'},'-=.4')
+   .to('#el-sub',{opacity:1,y:0,duration:.7},'-=.3')
+   .to('#cajón1',{opacity:1,y:0,duration:.8,ease:'back.out(1.2)'},'-=.3');
+
+/* ── STATS ── */
+document.querySelectorAll('.gs-stat').forEach(function(el,i){
+  var num=el.querySelector('.stat-num');
+  var tv=parseInt(num.dataset.v),ts=num.dataset.s||'';
+  gsap.from(el,{opacity:0,y:30,duration:.6,delay:i*.1,scrollTrigger:{trigger:el,start:'top 88%'}});
+  ScrollTrigger.create({trigger:el,start:'top 85%',once:true,onEnter:function(){
+    gsap.to({v:0},{v:tv,duration:1.4,ease:'power2.out',onUpdate:function(){num.textContent=Math.round(this.targets()[0].v)+ts;}});
+  }});
+});
+
+/* ── SCROLL REVEALS ── */
+gsap.utils.toArray('.gs-up').forEach(function(el){
+  gsap.from(el,{opacity:0,y:50,duration:.8,ease:'power3.out',scrollTrigger:{trigger:el,start:'top 86%'}});
+});
+
+/* ── RISK CARDS + 3D TILT ── */
+gsap.from('.gs-card',{opacity:0,y:60,stagger:.15,duration:.7,ease:'power3.out',scrollTrigger:{trigger:'.risk-grid',start:'top 80%'}});
+document.querySelectorAll('[data-tilt]').forEach(function(card){
+  card.addEventListener('mousemove',function(e){
+    var r=card.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;
+    gsap.to(card,{rotateY:x*12,rotateX:-y*12,duration:.3,ease:'power2.out',transformPerspective:800});
+  });
+  card.addEventListener('mouseleave',function(){gsap.to(card,{rotateY:0,rotateX:0,duration:.6,ease:'elastic.out(1,.4)'});});
+});
+
+/* ── CAJONES SCROLL ANIMATION ── */
+document.querySelectorAll('.gs-cajón').forEach(function(el,i){
+  var from={opacity:0,y:70,scale:.96};
+  gsap.from(el,Object.assign({},from,{duration:.85,ease:'back.out(1.3)',scrollTrigger:{trigger:el,start:'top 82%'}}));
+});
+
+/* ── PREVIEW CARD ── */
+gsap.from('.gs-flip',{opacity:0,rotateX:12,y:60,duration:.9,ease:'power3.out',scrollTrigger:{trigger:'.gs-flip',start:'top 80%'}});
+
+/* ── CURRENCY COUNTERS ── */
+document.querySelectorAll('.gs-num').forEach(function(el){
+  var tv=parseInt(el.dataset.v);
+  ScrollTrigger.create({trigger:el,start:'top 85%',once:true,onEnter:function(){
+    gsap.to({v:0},{v:tv,duration:1.6,ease:'power2.out',onUpdate:function(){el.textContent='$'+Math.round(this.targets()[0].v).toLocaleString('es-CO');}});
+  }});
+});
+
+/* ── STEPS ── */
+gsap.from('.gs-step',{opacity:0,x:-40,stagger:.2,duration:.7,ease:'power3.out',scrollTrigger:{trigger:'.steps',start:'top 80%'}});
+
+/* ── TOAST ── */
+function showToast(msg){
+  var t=document.getElementById('toast');
+  t.textContent=msg;
+  gsap.to(t,{opacity:1,y:0,duration:.4,ease:'back.out(1.5)'});
+  setTimeout(function(){gsap.to(t,{opacity:0,y:80,duration:.4,ease:'power2.in'});},3000);
+}
+
+/* ── FORM SUBMISSION ── */
+function tryML(email){
+  setTimeout(function(){
+    var inp=document.querySelector('.ml-hidden input[type="email"]');
+    var chk=document.querySelector('.ml-hidden input[type="checkbox"]');
+    var btn=document.querySelector('.ml-hidden button[type="submit"],.ml-hidden input[type="submit"]');
+    if(inp){inp.value=email;inp.dispatchEvent(new Event('input',{bubbles:true}));inp.dispatchEvent(new Event('change',{bubbles:true}));}
+    if(chk){chk.checked=true;chk.dispatchEvent(new Event('change',{bubbles:true}));}
+    if(btn){btn.click();}
+  },800);
+}
+
+document.querySelectorAll('.js-btn').forEach(function(btn){
+  btn.addEventListener('click',function(){
+    var wrap=btn.closest('.cajón');
+    var inp=wrap.querySelector('.js-email');
+    var chk=wrap.querySelector('.js-check');
+    if(!inp.value||!inp.value.includes('@')){
+      gsap.to(inp,{x:[-6,6,-4,4,0],duration:.35,ease:'power2.inOut'});
+      inp.focus();return;
+    }
+    if(!chk.checked){
+      gsap.to(chk.closest('.check-row'),{opacity:[1,.3,1,.3,1],duration:.5});
+      return;
+    }
+    var email=inp.value.trim();
+    gsap.to(btn,{scale:.95,duration:.1,yoyo:true,repeat:1});
+    tryML(email);
+    showToast('✓ ¡Listo! Te llegará el próximo domingo.');
+    setTimeout(function(){window.location.href='https://rematistas.com/confirma.html?email='+encodeURIComponent(email);},2000);
+  });
+});
+
+/* ── INPUT ENTER KEY ── */
+document.querySelectorAll('.js-email').forEach(function(inp){
+  inp.addEventListener('keydown',function(e){if(e.key==='Enter'){inp.closest('.cajón').querySelector('.js-btn').click();}});
+});
+
+/* ── ML FIX ── */
+function fixML(){
+  document.querySelectorAll('.ml-hidden input[type="email"],.ml-hidden input[type="text"]').forEach(function(el){el.style.cssText+='opacity:0!important;';});
+  document.querySelectorAll('.ml-hidden .ml-form-embedWrapper,.ml-hidden .ml-form-embedBody').forEach(function(el){el.style.cssText+='background:transparent!important;box-shadow:none!important;border:none!important;padding:0!important;';});
+}
+setTimeout(fixML,500);setTimeout(fixML,1500);
+new MutationObserver(fixML).observe(document.body,{childList:true,subtree:true});
+</script>
+</body>
+</html>
